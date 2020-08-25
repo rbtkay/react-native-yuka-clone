@@ -5,7 +5,7 @@ import styles from "../../assets/styles/style";
 
 const DetailScreen = ({ route }) => {
     const { product_id } = route.params;
-
+    
     const [name, setName] = useState(null);
     const [image, setImage] = useState(null);
     const [origin, setOrigin] = useState(null);
@@ -32,10 +32,6 @@ const DetailScreen = ({ route }) => {
                 setImage(image_nutrition_thumb_url);
                 setOrigin(origins);
                 setGrade(nutrition_grades);
-                // console.log("ingredients", responseJson.product.ingredients);
-            })
-            .then(() => {
-                console.log("image", image);
             })
             .catch((error) => {
                 console.error(error);

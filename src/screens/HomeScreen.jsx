@@ -9,13 +9,10 @@ const HomeScreen = ({navigation}) => {
     const [products, setProducts] = useState([]); 
 
     useEffect(() => {
-        // fetch("https://world.openfoodfacts.org/api/v0/product/737628064502.json") product_name_fr
         fetch("https://fr-en.openfoodfacts.org/category/pizzas/1.json")
             .then((response) => response.json())
             .then((responseJson) => {
                 setProducts(responseJson.products);
-                // Change l'état du composant
-                console.log(responseJson);
             })
             .catch((error) => {
                 console.error(error);

@@ -16,6 +16,11 @@ const styles = StyleSheet.create({
         height: 100,
         resizeMode: "stretch",
     },
+    camera: {
+        flex: 1,
+        flexDirection: "column",
+        justifyContent: "flex-end",
+    },
 });
 
 export default styles;
