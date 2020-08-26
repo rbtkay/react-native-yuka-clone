@@ -4,34 +4,34 @@ import { View, Text, Button, SafeAreaView, FlatList } from "react-native";
 import styles from "../../assets/styles/style";
 import Product from "../components/Product";
 
-const HomeScreen = ({navigation}) => {
+import { findProductsByUser } from "../../api/products";
+import { useIsFocused } from "@react-navigation/native";
 
-    const [products, setProducts] = useState([]); 
+const HomeScreen = ({ navigation, user }) => {
+    const [products, setProducts] = useState([]);
+    const user_id = user.id;
 
+    const isFocused = useIsFocused();
+    
     useEffect(() => {
-        fetch("https://fr-en.openfoodfacts.org/category/pizzas/1.json")
-            .then((response) => response.json())
-            .then((responseJson) => {
-                setProducts(responseJson.products);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }, []);
+        findProductsByUser(user_id).then((result) => {
+            setProducts(result);
+        });
+    }, [isFocused]);
 
     return (
         <View style={styles.container}>
-            <SafeAreaView style={{flex: 1, paddingTop:20}}>
-                    <FlatList
-                        data={products}
-                        renderItem={({item}) => <Product product={item} navigation={navigation}  />}
-                        keyExtractor={({id}, index) => id}
-                    />
-                </SafeAreaView>
+            <SafeAreaView style={{ flex: 1, paddingTop: 20 }}>
+                <FlatList
+                    data={products}
+                    renderItem={({ item }) => (
+                        <Product product={item} navigation={navigation} />
+                    )}
+                    keyExtractor={({ id }, index) => id}
+                />
+            </SafeAreaView>
             <Button
-                onPress={() =>
-                    navigation.navigate("Scanner")
-                }
+                onPress={() => navigation.navigate("Scanner")}
                 title="Scan new Product"
             />
         </View>

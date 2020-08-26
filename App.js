@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 import { Text, View } from "react-native";
 import { firebase } from "./api/firebaseConfig";
 
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, StackActions } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import styles from "./assets/styles/style";
@@ -56,12 +56,15 @@ export default function App() {
             <Stack.Navigator>
                 {user ? (
                     <>
-                        <Stack.Screen name="Home" component={HomeScreen} />
+                        <Stack.Screen name="Home">
+                            {(props) => <HomeScreen {...props} user={user} />}
+                        </Stack.Screen>
                         <Stack.Screen name="Details" component={DetailScreen} />
-                        <Stack.Screen
-                            name="Scanner"
-                            component={ScannerScreen}
-                        />
+                        <Stack.Screen name="Scanner">
+                            {(props) => (
+                                <ScannerScreen {...props} user={user} />
+                            )}
+                        </Stack.Screen>
                     </>
                 ) : (
                     <>

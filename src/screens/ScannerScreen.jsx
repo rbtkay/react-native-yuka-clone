@@ -7,7 +7,9 @@ const { FlashMode: CameraFlashModes, Type: CameraTypes } = Camera.Constants;
 import styles from "../../assets/styles/style";
 import Toast from "../components/Toast";
 
-const ScannerScreen = ({ navigation }) => {
+import { addProduct, findOneProduct } from "../../api/products";
+
+const ScannerScreen = ({ navigation, user }) => {
     const [isFlashOn, toggleFlash] = useState(false);
     const [flashState, setFlashState] = useState(
         Camera.Constants.FlashMode.torch
@@ -16,6 +18,8 @@ const ScannerScreen = ({ navigation }) => {
     const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
     const [scanned, setScanned] = useState(null);
     const [isToastVisible, setVisibleToast] = useState(false);
+
+    const userId = user.id;
 
     const changeFlash = () => {
         isFlashOn ? toggleFlash(false) : toggleFlash(true);
@@ -31,10 +35,27 @@ const ScannerScreen = ({ navigation }) => {
                 if (responseJson.status > 0) {
                     setScanned(true);
 
-                    navigation.navigate("Details", {
-                        product_id: data,
+                    findOneProduct(data).then((status) => {
+                        // if the product is not already scanned we add it the user's products
+                        if (!status) {
+                            addProduct(userId, data).then((isOk) => {
+                                if (isOk) {
+                                    navigation.navigate("Details", {
+                                        product_id: data,
+                                    });
+                                } else {
+                                    alert(
+                                        "Something went wrong when trying to add your product"
+                                    );
+                                }
+                            });
+                        } else {
+                            navigation.navigate("Details", {
+                                product_id: data,
+                            });
+                        }
                     });
-                } else { 
+                } else {
                     setVisibleToast(true);
                 }
             })
