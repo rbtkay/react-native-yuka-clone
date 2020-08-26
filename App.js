@@ -22,11 +22,13 @@ export default function App() {
     YellowBox.ignoreWarnings(["Setting a timer"]);
 
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        console.log("useEffect");
         const usersRef = firebase.firestore().collection("users");
         firebase.auth().onAuthStateChanged((user) => {
+            console.log(user);
             if (user) {
                 usersRef
                     .doc(user.uid)
@@ -54,20 +56,20 @@ export default function App() {
             <Stack.Navigator>
                 {user ? (
                     <>
-                        <Stack.Screen
-                            name="Register"
-                            component={RegisterScreen}
-                        />
-                        <Stack.Screen name="Login" component={LoginScreen} />
-                    </>
-                ) : (
-                    <>
                         <Stack.Screen name="Home" component={HomeScreen} />
                         <Stack.Screen name="Details" component={DetailScreen} />
                         <Stack.Screen
                             name="Scanner"
                             component={ScannerScreen}
                         />
+                    </>
+                ) : (
+                    <>
+                        <Stack.Screen
+                            name="Register"
+                            component={RegisterScreen}
+                        />
+                        <Stack.Screen name="Login" component={LoginScreen} />
                     </>
                 )}
             </Stack.Navigator>
