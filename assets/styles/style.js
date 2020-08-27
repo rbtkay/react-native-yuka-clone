@@ -21,6 +21,13 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: "flex-end",
     },
+    cameraBtn:{
+        width: '100%',
+        height: '30%',
+        flexDirection: "row",
+        justifyContent: 'center',
+        alignItems: 'center'
+     }
 });
 
 export default styles;

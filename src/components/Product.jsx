@@ -1,5 +1,6 @@
 import React from "react";
-import { Text, View, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity } from "react-native";
+import { Text } from "native-base";
 import styles from "../../assets/styles/style";
 
 const Product =  ({ navigation, product }) => {

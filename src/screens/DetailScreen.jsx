@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { View, Text, Image } from "react-native";
 
 import styles from "../../assets/styles/style";
+import { Container } from "native-base";
+import CustomHeader from "../components/CustomHeader";
 
 const DetailScreen = ({ route }) => {
     const { product_id } = route.params;
-    
+
     const [name, setName] = useState(null);
     const [image, setImage] = useState(null);
     const [origin, setOrigin] = useState(null);
@@ -25,7 +27,7 @@ const DetailScreen = ({ route }) => {
                     ingredients,
                     nutrition_grades,
                     image_nutrition_thumb_url,
-                    product_name
+                    product_name,
                 } = responseJson.product;
 
                 setName(product_name);
@@ -39,12 +41,15 @@ const DetailScreen = ({ route }) => {
     }, []);
 
     return (
-        <View style={styles.container}>
+        <Container>
+            <CustomHeader screen={"Details"} />
+            {/* <View style={styles.container}> */}
             <Text>Title {name}</Text>
-            <Image style={styles.stretch} source={{uri: image}} />
+            <Image style={styles.stretch} source={{ uri: image }} />
             <Text>Origin {origin}</Text>
             <Text>Nutriscore {grade}</Text>
-        </View>
+            {/* </View> */}
+        </Container>
     );
 };
 

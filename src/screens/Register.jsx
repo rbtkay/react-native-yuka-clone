@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { TextInput } from "react-native-gesture-handler";
-import { Button, View } from "react-native";
+import { Button, View, Text } from "react-native";
 import { firebase } from "../../api/firebaseConfig";
 
-import { YellowBox } from 'react-native';
+import { YellowBox } from "react-native";
 
 const RegisterScreen = ({ navigation }) => {
     const [email, setEmail] = useState(null);
@@ -11,7 +11,7 @@ const RegisterScreen = ({ navigation }) => {
     const [confirm, setConfirm] = useState(null);
     const [username, setUsername] = useState(null);
 
-    YellowBox.ignoreWarnings(['Setting a timer']);
+    YellowBox.ignoreWarnings(["Setting a timer"]);
 
     const onRegisterPress = () => {
         if (password !== confirm) {
@@ -38,7 +38,6 @@ const RegisterScreen = ({ navigation }) => {
                     .doc(uid)
                     .set(data)
                     .then(() => {
-                        console.log("C'est bon");
                         navigation.navigate("Home", { user: data });
                     })
                     .catch((error) => {
@@ -51,8 +50,10 @@ const RegisterScreen = ({ navigation }) => {
     };
 
     return (
-        <View>
+        <View style={{backgroundColor: 'red'}}>
+            <View><Text>Hello IOS</Text></View>
             <TextInput
+                style={{ backgroundColor: "#ededed", height: 60 }}
                 placeholder="username"
                 value={username}
                 autoCapitalize="none"
@@ -77,7 +78,10 @@ const RegisterScreen = ({ navigation }) => {
                 onChangeText={(text) => setConfirm(text)}
             />
             <Button title="Register" onPress={() => onRegisterPress()} />
-            <Button title="login" onPress={() => navigation.navigate("Login")} />
+            <Button
+                title="login"
+                onPress={() => navigation.navigate("Login")}
+            />
         </View>
     );
 };

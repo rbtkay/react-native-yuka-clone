@@ -2,11 +2,11 @@ import "react-native-gesture-handler";
 
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
-import { Text, View } from "react-native";
+import { Text, View, Button } from "react-native";
 import { firebase } from "./api/firebaseConfig";
 
 import { NavigationContainer, StackActions } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createStackNavigator, HeaderTitle } from "@react-navigation/stack";
 
 import styles from "./assets/styles/style";
 
@@ -15,7 +15,13 @@ import DetailScreen from "./src/screens/DetailScreen";
 import ScannerScreen from "./src/screens/ScannerScreen";
 import RegisterScreen from "./src/screens/Register";
 import LoginScreen from "./src/screens/LoginScreen";
+
 import { YellowBox } from "react-native";
+import CustomHeader from "./src/components/CustomHeader";
+
+import * as Font from "expo-font";
+import { Ionicons } from "@expo/vector-icons";
+
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -25,7 +31,14 @@ export default function App() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        console.log("useEffect");
+        (async function () {
+            await Font.loadAsync({
+                Roboto: require("native-base/Fonts/Roboto.ttf"),
+                Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
+                ...Ionicons.font,
+            });
+        })();
+
         const usersRef = firebase.firestore().collection("users");
         firebase.auth().onAuthStateChanged((user) => {
             console.log(user);
@@ -56,11 +69,28 @@ export default function App() {
             <Stack.Navigator>
                 {user ? (
                     <>
-                        <Stack.Screen name="Home">
+                        <Stack.Screen
+                            name="Home"
+                            options={{
+                                headerShown: false
+                            }}
+                        >
                             {(props) => <HomeScreen {...props} user={user} />}
                         </Stack.Screen>
-                        <Stack.Screen name="Details" component={DetailScreen} />
-                        <Stack.Screen name="Scanner">
+                        <Stack.Screen
+                            name="Details"
+                            options={{
+                                headerShown: false
+                            }}
+                        >
+                            {(props) => <DetailScreen {...props} user={user} />}
+                        </Stack.Screen>
+                        <Stack.Screen
+                            name="Scanner"
+                            options={{
+                                headerShown: false
+                            }}
+                        >
                             {(props) => (
                                 <ScannerScreen {...props} user={user} />
                             )}
@@ -79,3 +109,11 @@ export default function App() {
         </NavigationContainer>
     );
 }
+// options={({ navigation }) => {
+//     return {
+//         headerTitle: () => (
+//             // <OptionMenu navigation={navigation} />
+//             <HomeHeader/>
+//         ),
+//     };
+// }}

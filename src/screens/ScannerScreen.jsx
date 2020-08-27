@@ -8,6 +8,8 @@ import styles from "../../assets/styles/style";
 import Toast from "../components/Toast";
 
 import { addProduct, findOneProduct } from "../../api/products";
+import { Container, Content } from "native-base";
+import CustomHeader from "../components/CustomHeader";
 
 const ScannerScreen = ({ navigation, user }) => {
     const [isFlashOn, toggleFlash] = useState(false);
@@ -84,24 +86,32 @@ const ScannerScreen = ({ navigation, user }) => {
         );
     }
     return (
-        <View style={{ flex: 1 }}>
-            <Camera
-                type={cameraType}
-                flashMode={
-                    isFlashOn
-                        ? Camera.Constants.FlashMode.torch
-                        : Camera.Constants.FlashMode.off
-                }
-                onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-                style={styles.camera}
-            >
-                <Toast visible={isToastVisible} message="No products found!" />
-                <Button title={"Flash"} onPress={() => changeFlash()} />
-                {/*                 
-                    <Button title={'Recommencer'} onPress={()=> this.setState({scanned: null})} /> */}
-            </Camera>
-        </View>
+        <Container>
+            <CustomHeader screen={"Scanner"}/>
+                <Camera
+                    type={cameraType}
+                    flashMode={
+                        isFlashOn
+                            ? Camera.Constants.FlashMode.torch
+                            : Camera.Constants.FlashMode.off
+                    }
+                    onBarCodeScanned={
+                        scanned ? undefined : handleBarCodeScanned
+                    }
+                    style={styles.camera}
+                >
+                    <Button title={"Flash"} onPress={() => changeFlash()} />
+                </Camera>
+        </Container>
     );
 };
+
+{
+    /* <Toast visible={isToastVisible} message="No products found!" /> */
+}
+{
+    /*                 
+                    <Button title={'Recommencer'} onPress={()=> this.setState({scanned: null})} /> */
+}
 
 export default ScannerScreen;
