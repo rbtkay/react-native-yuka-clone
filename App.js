@@ -60,6 +60,21 @@ export default function App() {
         });
     }, []);
 
+    const addUser = (user) => {
+        setUser(user);
+    };
+
+    const logout = () => {
+        firebase
+            .auth()
+            .signOut()
+            .then(() => {
+                console.log("User sign out");
+                setUser(null);
+            });
+        console.log("logout");
+    };
+
     if (loading) {
         return <View />;
     }
@@ -72,15 +87,21 @@ export default function App() {
                         <Stack.Screen
                             name="Home"
                             options={{
-                                headerShown: false
+                                headerShown: false,
                             }}
                         >
-                            {(props) => <HomeScreen {...props} user={user} />}
+                            {(props) => (
+                                <HomeScreen
+                                    {...props}
+                                    user={user}
+                                    logout={logout}
+                                />
+                            )}
                         </Stack.Screen>
                         <Stack.Screen
                             name="Details"
                             options={{
-                                headerShown: false
+                                headerShown: false,
                             }}
                         >
                             {(props) => <DetailScreen {...props} user={user} />}
@@ -88,7 +109,7 @@ export default function App() {
                         <Stack.Screen
                             name="Scanner"
                             options={{
-                                headerShown: false
+                                headerShown: false,
                             }}
                         >
                             {(props) => (
@@ -99,10 +120,21 @@ export default function App() {
                 ) : (
                     <>
                         <Stack.Screen
+                            name="Login"
+                            options={{ headerShown: false }}
+                        >
+                            {(props) => (
+                                <LoginScreen {...props} addUser={addUser} />
+                            )}
+                        </Stack.Screen>
+                        <Stack.Screen
                             name="Register"
-                            component={RegisterScreen}
-                        />
-                        <Stack.Screen name="Login" component={LoginScreen} />
+                            options={{ headerShown: false }}
+                        >
+                            {(props) => (
+                                <RegisterScreen {...props} addUser={addUser} />
+                            )}
+                        </Stack.Screen>
                     </>
                 )}
             </Stack.Navigator>

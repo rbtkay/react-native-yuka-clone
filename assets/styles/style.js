@@ -21,13 +21,19 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: "flex-end",
     },
-    cameraBtn:{
-        width: '100%',
-        height: '30%',
+    cameraBtn: {
+        width: "100%",
+        height: "30%",
         flexDirection: "row",
-        justifyContent: 'center',
-        alignItems: 'center'
-     }
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    loginBtn: {
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "center",
+        paddingTop: 50,
+    },
 });
 
 export default styles;

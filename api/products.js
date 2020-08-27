@@ -4,10 +4,9 @@ import { RecyclerViewBackedScrollView } from "react-native";
 const productsRef = firebase.firestore().collection("products");
 exports.addProduct = (user_id, barcode) => {
     return new Promise((resolve, reject) => {
-        console.log("adding product", user_id, barcode);
         const data = {
             user_id,
-            barcode,
+            barcode: `${barcode}___${user_id}`,
         };
         productsRef
             .add(data)
@@ -32,13 +31,6 @@ exports.findProductsByUser = (user_id) => {
                 getUserProductFromApi(user_products).then((result) => {
                     resolve(result);
                 });
-                // const user_product_from_api = getUserProductFromApi(
-                //     user_products
-                // );
-
-                // getUserProductFromApi(user_products)
-
-                // console.log(user_product_from_api);
             },
             (error) => {
                 reject(error);
@@ -47,9 +39,9 @@ exports.findProductsByUser = (user_id) => {
     });
 };
 
-exports.findOneProduct = (barcode) =>{
+exports.findOneProduct = (barcode, user_id) =>{
     return new Promise((resolve, reject)=>{
-        productsRef.where("barcode", "==", barcode).onSnapshot(
+        productsRef.where("barcode", "==", `${barcode}___${user_id}`).onSnapshot(
             (querySnapshot)=>{
                 if(querySnapshot.docs[0]){
                     resolve(true);
@@ -65,7 +57,7 @@ const getUserProductFromApi = (user_products) => {
     const promises = user_products.map(async (product) => {
         console.log("product", product);
         return await fetch(
-            `https://world.openfoodfacts.org/api/v0/product/${product.barcode}.json`
+            `https://world.openfoodfacts.org/api/v0/product/${product.barcode.split("___")[0]}.json`
         )
             .then((response) => {
                 return response.json();
@@ -77,8 +69,6 @@ const getUserProductFromApi = (user_products) => {
                 console.error(error);
             });
     });
-
-    console.log(promises.length);
 
     return Promise.all(promises);
 };
