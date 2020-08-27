@@ -9,6 +9,8 @@ import { Text, Button, Container, Form, Item, Input } from "native-base";
 import styles from "../../assets/styles/style";
 import CustomHeader from "../components/CustomHeader";
 
+import { create } from "../../api/user";
+
 const RegisterScreen = ({ navigation, addUser }) => {
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
@@ -23,37 +25,14 @@ const RegisterScreen = ({ navigation, addUser }) => {
             return;
         }
 
-        firebase
-            .auth()
-            .createUserWithEmailAndPassword(email, password)
-            .then((userCredential) => {
-                const { uid } = userCredential.user;
-                console.log("uid", userCredential);
-                const data = {
-                    id: uid,
-                    email,
-                    username,
-                };
-
-                const usersRef = firebase.firestore().collection("users");
-                usersRef
-                    .doc(uid)
-                    .set(data)
-                    .then(() => {
-                        addUser(data);
-                    })
-                    .catch((error) => {
-                        alert(error);
-                    });
-            })
-            .catch((error) => {
-                alert(error);
-            });
+        create(username, email, password).then((data) => {
+            addUser(data);
+        });
     };
 
     return (
         <Container>
-            <CustomHeader screen={"Register"}/>
+            <CustomHeader screen={"Register"} />
             <Form>
                 <Item>
                     <Input
@@ -73,6 +52,7 @@ const RegisterScreen = ({ navigation, addUser }) => {
                 </Item>
                 <Item>
                     <Input
+                        secureTextEntry={true}
                         placeholder="Password"
                         value={password}
                         autoCapitalize="none"
@@ -82,6 +62,7 @@ const RegisterScreen = ({ navigation, addUser }) => {
                 </Item>
                 <Item>
                     <Input
+                        secureTextEntry={true}
                         placeholder="Confirm password"
                         value={confirm}
                         autoCapitalize="none"
@@ -90,13 +71,14 @@ const RegisterScreen = ({ navigation, addUser }) => {
                     />
                 </Item>
             </Form>
-            <View
-                style={styles.loginBtn}
-            >
+            <View style={styles.loginBtn}>
                 <Button onPress={() => onRegisterPress()}>
                     <Text>Register</Text>
                 </Button>
-                <TouchableOpacity style={{paddingTop: 10}} onPress={() => navigation.navigate("Login")}>
+                <TouchableOpacity
+                    style={{ paddingTop: 10 }}
+                    onPress={() => navigation.navigate("Login")}
+                >
                     <Text>Already a member ?</Text>
                 </TouchableOpacity>
             </View>

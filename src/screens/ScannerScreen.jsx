@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Button, Vibration } from "react-native";
+import { View, Vibration } from "react-native";
 import { Camera } from "expo-camera";
 
 const { FlashMode: CameraFlashModes, Type: CameraTypes } = Camera.Constants;
@@ -8,7 +8,7 @@ import styles from "../../assets/styles/style";
 import Toast from "../components/Toast";
 
 import { addProduct, findOneProduct } from "../../api/products";
-import { Container, Content } from "native-base";
+import { Container, Content, Button, Text } from "native-base";
 import CustomHeader from "../components/CustomHeader";
 
 const ScannerScreen = ({ navigation, user }) => {
@@ -38,7 +38,7 @@ const ScannerScreen = ({ navigation, user }) => {
                     setScanned(true);
 
                     findOneProduct(data, userId).then((status) => {
-                        console.log(status);
+                        console.log("status", status);
                         // if the product is not already scanned we add it the user's products
                         if (!status) {
                             addProduct(userId, data).then((isOk) => {
@@ -101,7 +101,7 @@ const ScannerScreen = ({ navigation, user }) => {
                     }
                     style={styles.camera}
                 >
-                    <Button title={"Flash"} onPress={() => changeFlash()} />
+                    <Button rounded style={{alignSelf: "center"}} onPress={() => changeFlash()}><Text>Toggle Flash</Text></Button>
                 </Camera>
         </Container>
     );

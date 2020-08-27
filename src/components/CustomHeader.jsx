@@ -30,7 +30,7 @@ const CustomHeader = ({ screen, logout }) => {
     const goBack = () => navigation.navigate("Home");
 
     const getProfile = () => {
-        console.log("profile");
+        navigation.navigate("Profile");
     };
 
     const signout = () => {

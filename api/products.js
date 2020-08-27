@@ -55,7 +55,6 @@ exports.findOneProduct = (barcode, user_id) =>{
 
 const getUserProductFromApi = (user_products) => {
     const promises = user_products.map(async (product) => {
-        console.log("product", product);
         return await fetch(
             `https://world.openfoodfacts.org/api/v0/product/${product.barcode.split("___")[0]}.json`
         )

@@ -15,6 +15,7 @@ import DetailScreen from "./src/screens/DetailScreen";
 import ScannerScreen from "./src/screens/ScannerScreen";
 import RegisterScreen from "./src/screens/Register";
 import LoginScreen from "./src/screens/LoginScreen";
+import ProfileScreen from "./src/screens/Profile";
 
 import { YellowBox } from "react-native";
 import CustomHeader from "./src/components/CustomHeader";
@@ -41,7 +42,6 @@ export default function App() {
 
         const usersRef = firebase.firestore().collection("users");
         firebase.auth().onAuthStateChanged((user) => {
-            console.log(user);
             if (user) {
                 usersRef
                     .doc(user.uid)
@@ -69,10 +69,8 @@ export default function App() {
             .auth()
             .signOut()
             .then(() => {
-                console.log("User sign out");
                 setUser(null);
             });
-        console.log("logout");
     };
 
     if (loading) {
@@ -114,6 +112,16 @@ export default function App() {
                         >
                             {(props) => (
                                 <ScannerScreen {...props} user={user} />
+                            )}
+                        </Stack.Screen>
+                        <Stack.Screen
+                            name="Profile"
+                            options={{
+                                headerShown: false,
+                            }}
+                        >
+                            {(props) => (
+                                <ProfileScreen {...props} user={user} addUser={addUser} />
                             )}
                         </Stack.Screen>
                     </>

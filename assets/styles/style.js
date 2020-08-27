@@ -23,10 +23,11 @@ const styles = StyleSheet.create({
     },
     cameraBtn: {
         width: "100%",
-        height: "30%",
+        height: "50%",
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
+        paddingTop: 25
     },
     loginBtn: {
         flex: 1,

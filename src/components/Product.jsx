@@ -1,24 +1,20 @@
 import React from "react";
 import { View, TouchableOpacity } from "react-native";
-import { Text, Icon } from "native-base";
+import { Text, Icon, Thumbnail, Card, CardItem, Body } from "native-base";
 import styles from "../../assets/styles/style";
-
-import OptionMenu from "react-native-option-menu";
 
 const Product = ({ navigation, product }) => {
     const onPress = (item) => {
-        console.log("item", item.id);
         navigation.navigate("Details", {
             product_id: item.id,
         });
     };
 
     return (
-        <View style={styles.lineContainer}>
-            <TouchableOpacity onPress={() => onPress(product)}>
-                <Text>{product.product_name}</Text>
-            </TouchableOpacity>
-        </View>
+        <TouchableOpacity onPress={() => onPress(product)}>
+            <Thumbnail source={{ uri: product.image_thumb_url }} />
+            <Text>{product.product_name}</Text>
+        </TouchableOpacity>
     );
 };
 
