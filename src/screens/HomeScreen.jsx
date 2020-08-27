@@ -9,7 +9,7 @@ import { findProductsByUser } from "../../api/products";
 import { useIsFocused } from "@react-navigation/native";
 import CustomHeader from "../components/CustomHeader";
 
-const HomeScreen = ({ navigation, user }) => {
+const HomeScreen = ({ navigation, user, logout }) => {
     const [products, setProducts] = useState([]);
     const user_id = user.id;
 
@@ -25,13 +25,12 @@ const HomeScreen = ({ navigation, user }) => {
         findProductsByUser(user_id).then((result) => {
             setProducts(result);
         });
-
-        navigation.setOptions({ open_menu: openMenu });
     }, [isFocused]);
 
+    // const myIcon = <Icon name="rocket" size={30} color="#900" />;
     return (
         <Container>
-            <CustomHeader screen={"Home"} />
+            <CustomHeader screen={"Home"} logout={logout} />
             <FlatList
                 data={products}
                 renderItem={({ item }) => (
@@ -39,6 +38,7 @@ const HomeScreen = ({ navigation, user }) => {
                 )}
                 keyExtractor={({ id }, index) => id}
             />
+
             <View style={styles.cameraBtn}>
                 <Button rounded onPress={() => navigation.navigate("Scanner")}>
                     <Icon name="camera" />

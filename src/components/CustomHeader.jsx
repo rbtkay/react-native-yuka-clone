@@ -11,85 +11,69 @@ import {
     Button,
     Icon,
     Text,
+    View,
 } from "native-base";
 import { Picker } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import OptionsMenu from "react-native-option-menu";
 
-const CustomHeader = ({ screen }) => {
+import { firebase } from "../../api/firebaseConfig";
+import { auth } from "firebase";
+
+const icon = require("../../assets/icon.png");
+
+const CustomHeader = ({ screen, logout }) => {
     const navigation = useNavigation();
     const [pickerValue, setPickerValue] = useState("key0");
 
     const goBack = () => navigation.navigate("Home");
 
+    const getProfile = () => {
+        console.log("profile");
+    };
+
+    const signout = () => {
+        logout();
+    };
+
+    const menuIcon = <Icon name="menu" />;
+
     return (
         <Header>
             {screen === "Scanner" || screen === "Details" ? (
                 <Left>
-                    {/* <TouchableOpacity onPress={() => goBack()}> */}
-                    <Button onPress={() => goBack()}>
-                        <Icon name="arrow-back" />
-                    </Button>
-                    {/* </TouchableOpacity> */}
-                </Left>
-            ) : (
-                <Left>
                     <TouchableOpacity onPress={() => goBack()}>
-                        <Button>
-                            <Icon name="menu" />
-                        </Button>
+                        <Icon style={{ color: "white" }} name="arrow-back" />
                     </TouchableOpacity>
                 </Left>
+            ) : (
+                <Left />
             )}
             <Body>
                 <Title>{screen}</Title>
             </Body>
             <Right>
-                {/* <Picker
-                
-                    selectedValue={pickerValue}
-                    style={{ height: 50, width: 300 }}
-                    onValueChange={(itemValue, itemIndex) =>
-                        setPickerValue(itemValue)
-                    }
-                >
-                    <Picker.Item label="Java" value="java" />
-                    <Picker.Item label="JavaScript" value="js" />
-                </Picker>
-                <Picker
-                    mode="dropdown"
-                    iosIcon={<Icon name="menu" />}
-                    style={{ width: undefined }}
-                    placeholder=""
-                    placeholderStyle={{ color: "#ffffff" }}
-                    placeholderIconColor="#ffffff"
-                    textStyle={{color: '#ffffff'}}
-                    selectedValue={pickerValue}
-                    onValueChange={(e) => {
-                        navigation.navigate(e)
-                    }}
-                >
-                    <Picker.Item label="" value="key0" />
-                    <Picker.Item label="Profile" value="Profile" />
-                    <Picker.Item label="Logout" value="Scanner" /> 
-                </Picker>*/}
+                {screen === "Home" ? (
+                    <OptionsMenu
+                        customButton={
+                            <Icon style={{ color: "white" }} name="menu" />
+                        }
+                        buttonStyle={{
+                            width: 32,
+                            height: 50,
+                            margin: 0,
+                            resizeMode: "contain",
+                        }}
+                        destructiveIndex={2}
+                        options={["Profile", "Logout", "Cancel"]}
+                        actions={[getProfile, signout]}
+                    />
+                ) : (
+                    <View />
+                )}
             </Right>
         </Header>
-        //     <Header
-        //         leftComponent={{ icon: "menu", color: "#fff" }}
-        //         centerComponent={{ text: "MY TITLE", style: { color: "#fff" } }}
-        //         rightComponent={{ icon: "home", color: "#fff" }}
-        //         style={{ flex: 1 }}
-        //     />
-
-        // <Header
-        //     centerComponent={{ text: "MY TITLE", style: { color: "#fff" } }}
-        // />
-        // <Header
-        //     leftComponent={{ icon: "menu", color: "#fff" }}
-        //     centerComponent={{ text: "MY TITLE", style: { color: "#fff" } }}
-        //     rightComponent={{ icon: "home", color: "#fff" }}
-        // />
     );
 };
 

@@ -37,7 +37,8 @@ const ScannerScreen = ({ navigation, user }) => {
                 if (responseJson.status > 0) {
                     setScanned(true);
 
-                    findOneProduct(data).then((status) => {
+                    findOneProduct(data, userId).then((status) => {
+                        console.log(status);
                         // if the product is not already scanned we add it the user's products
                         if (!status) {
                             addProduct(userId, data).then((isOk) => {

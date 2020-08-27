@@ -1,11 +1,15 @@
 import React, { useState } from "react";
-import { TextInput } from "react-native-gesture-handler";
-import { Button, View, Text } from "react-native";
+import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
+import { View } from "react-native";
 import { firebase } from "../../api/firebaseConfig";
 
 import { YellowBox } from "react-native";
+import { Text, Button, Container, Form, Item, Input } from "native-base";
 
-const RegisterScreen = ({ navigation }) => {
+import styles from "../../assets/styles/style";
+import CustomHeader from "../components/CustomHeader";
+
+const RegisterScreen = ({ navigation, addUser }) => {
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
     const [confirm, setConfirm] = useState(null);
@@ -18,8 +22,6 @@ const RegisterScreen = ({ navigation }) => {
             alert("Password don't match");
             return;
         }
-
-        console.log([email, password, confirm]);
 
         firebase
             .auth()
@@ -38,7 +40,7 @@ const RegisterScreen = ({ navigation }) => {
                     .doc(uid)
                     .set(data)
                     .then(() => {
-                        navigation.navigate("Home", { user: data });
+                        addUser(data);
                     })
                     .catch((error) => {
                         alert(error);
@@ -50,39 +52,55 @@ const RegisterScreen = ({ navigation }) => {
     };
 
     return (
-        <View style={{backgroundColor: 'red'}}>
-            <View><Text>Hello IOS</Text></View>
-            <TextInput
-                style={{ backgroundColor: "#ededed", height: 60 }}
-                placeholder="username"
-                value={username}
-                autoCapitalize="none"
-                onChangeText={(text) => setUsername(text)}
-            />
-            <TextInput
-                placeholder="email"
-                value={email}
-                autoCapitalize="none"
-                onChangeText={(text) => setEmail(text)}
-            />
-            <TextInput
-                placeholder="password"
-                value={password}
-                autoCapitalize="none"
-                onChangeText={(text) => setPassword(text)}
-            />
-            <TextInput
-                placeholder="confirm password"
-                value={confirm}
-                autoCapitalize="none"
-                onChangeText={(text) => setConfirm(text)}
-            />
-            <Button title="Register" onPress={() => onRegisterPress()} />
-            <Button
-                title="login"
-                onPress={() => navigation.navigate("Login")}
-            />
-        </View>
+        <Container>
+            <CustomHeader screen={"Register"}/>
+            <Form>
+                <Item>
+                    <Input
+                        placeholder="Username"
+                        value={username}
+                        autoCapitalize="none"
+                        onChangeText={(text) => setUsername(text)}
+                    />
+                </Item>
+                <Item>
+                    <Input
+                        placeholder="Email"
+                        value={email}
+                        autoCapitalize="none"
+                        onChangeText={(text) => setEmail(text)}
+                    />
+                </Item>
+                <Item>
+                    <Input
+                        placeholder="Password"
+                        value={password}
+                        autoCapitalize="none"
+                        onChangeText={(text) => setPassword(text)}
+                        textContentType={"password"}
+                    />
+                </Item>
+                <Item>
+                    <Input
+                        placeholder="Confirm password"
+                        value={confirm}
+                        autoCapitalize="none"
+                        onChangeText={(text) => setConfirm(text)}
+                        textContentType={"password"}
+                    />
+                </Item>
+            </Form>
+            <View
+                style={styles.loginBtn}
+            >
+                <Button onPress={() => onRegisterPress()}>
+                    <Text>Register</Text>
+                </Button>
+                <TouchableOpacity style={{paddingTop: 10}} onPress={() => navigation.navigate("Login")}>
+                    <Text>Already a member ?</Text>
+                </TouchableOpacity>
+            </View>
+        </Container>
     );
 };
 

@@ -1,9 +1,11 @@
 import React from "react";
 import { View, TouchableOpacity } from "react-native";
-import { Text } from "native-base";
+import { Text, Icon } from "native-base";
 import styles from "../../assets/styles/style";
 
-const Product =  ({ navigation, product }) => {
+import OptionMenu from "react-native-option-menu";
+
+const Product = ({ navigation, product }) => {
     const onPress = (item) => {
         console.log("item", item.id);
         navigation.navigate("Details", {
