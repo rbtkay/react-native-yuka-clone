@@ -1,16 +1,7 @@
 import React, { useState } from "react";
-// import { Header } from "react-native-elements";
+import { Platform } from "react-native";
 import * as Font from "expo-font";
-import {
-    Header,
-    Left,
-    Body,
-    Right,
-    Title,
-    Icon,
-    View,
-    H1,
-} from "native-base";
+import { Header, Left, Body, Right, Title, Icon, View, H1 } from "native-base";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import OptionsMenu from "react-native-option-menu";
@@ -28,14 +19,16 @@ const CustomHeader = ({ screen, logout }) => {
         logout();
     };
 
+    const textColor = Platform.OS === "ios" ? "#000000" : "#ffffff";
+
     return (
-        <Header iosBarStyle={"dark-content"}>
+        <Header>
             {screen === "Scanner" ||
             screen === "Details" ||
             screen === "Profile" ? (
                 <Left>
                     <TouchableOpacity onPress={() => goBack()}>
-                        <Icon style={{ color: "white" }} name="arrow-back" />
+                        <Icon style={{ color: textColor }} name="arrow-back" />
                     </TouchableOpacity>
                 </Left>
             ) : (
@@ -43,14 +36,14 @@ const CustomHeader = ({ screen, logout }) => {
             )}
             <Body>
                 <Title>
-                    <H1 style={{ color: "#ffffff" }}>{screen}</H1>
+                    <H1 style={{ color: textColor }}>{screen}</H1>
                 </Title>
             </Body>
             <Right>
                 {screen === "History" ? (
                     <OptionsMenu
                         customButton={
-                            <Icon style={{ color: "white" }} name="menu" />
+                            <Icon style={{ color: textColor }} name="menu" />
                         }
                         buttonStyle={{
                             width: 32,

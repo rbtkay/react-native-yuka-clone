@@ -151,6 +151,7 @@ const DetailScreen = ({ route }) => {
                                                     paddingBottom: 2,
                                                     paddingTop: 2,
                                                     color: "#ffffff",
+                                                    borderRadius: 5
                                                 }}
                                             >
                                                 {nutrient[1]}

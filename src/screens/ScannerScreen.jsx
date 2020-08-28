@@ -5,10 +5,9 @@ import { Camera } from "expo-camera";
 const { FlashMode: CameraFlashModes, Type: CameraTypes } = Camera.Constants;
 
 import styles from "../../assets/styles/style";
-import Toast from "../components/Toast";
 
 import { addProduct, findOneProduct } from "../../api/products";
-import { Container, Content, Button, Text } from "native-base";
+import { Container, Content, Button, Text, Toast } from "native-base";
 import CustomHeader from "../components/CustomHeader";
 
 const ScannerScreen = ({ navigation, user }) => {
@@ -19,7 +18,7 @@ const ScannerScreen = ({ navigation, user }) => {
     const [cameraPermission, setCameraPermission] = useState(null);
     const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
     const [scanned, setScanned] = useState(null);
-    const [isToastVisible, setVisibleToast] = useState(false);
+    // const [isToastVisible, setVisibleToast] = useState(false);
 
     const userId = user.id;
 
@@ -58,7 +57,10 @@ const ScannerScreen = ({ navigation, user }) => {
                         }
                     });
                 } else {
-                    setVisibleToast(true);
+                    Toast.show({
+                        text: "No products found!",
+                        buttonText: "Ok"
+                    })
                 }
             })
             .catch((error) => {
@@ -67,7 +69,7 @@ const ScannerScreen = ({ navigation, user }) => {
     };
 
     //detect the change on visible toast and reset it to false
-    useEffect(() => setVisibleToast(false), [isToastVisible]);
+    // useEffect(() => setVisibleToast(false), [isToastVisible]);
 
     useEffect(() => {
         Camera.requestPermissionsAsync().then(({ status }) => {
