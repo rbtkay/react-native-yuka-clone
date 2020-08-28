@@ -9,7 +9,7 @@ import OptionsMenu from "react-native-option-menu";
 const CustomHeader = ({ screen, logout }) => {
     const navigation = useNavigation();
 
-    const goBack = () => navigation.navigate("Home");
+    const goBack = () => navigation.goBack();
 
     const getProfile = () => {
         navigation.navigate("Profile");
@@ -19,12 +19,17 @@ const CustomHeader = ({ screen, logout }) => {
         logout();
     };
 
+    const gotoFavorites = () => {
+        navigation.navigate("Favorites");
+    };
+
     const textColor = Platform.OS === "ios" ? "#000000" : "#ffffff";
 
     return (
         <Header>
             {screen === "Scanner" ||
             screen === "Details" ||
+            screen === "Favorites" ||
             screen === "Profile" ? (
                 <Left>
                     <TouchableOpacity onPress={() => goBack()}>
@@ -52,8 +57,8 @@ const CustomHeader = ({ screen, logout }) => {
                             resizeMode: "contain",
                         }}
                         destructiveIndex={2}
-                        options={["Profile", "Logout", "Cancel"]}
-                        actions={[getProfile, signout]}
+                        options={["Favorites", "Profile", "Logout", "Cancel"]}
+                        actions={[gotoFavorites, getProfile, signout]}
                     />
                 ) : (
                     <View />

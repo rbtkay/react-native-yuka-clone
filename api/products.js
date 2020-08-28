@@ -2,6 +2,7 @@ import { firebase } from "./firebaseConfig";
 import { RecyclerViewBackedScrollView } from "react-native";
 
 const productsRef = firebase.firestore().collection("products");
+const favoriteRef = firebase.firestore().collection("favorites");
 exports.addProduct = (user_id, barcode) => {
     return new Promise((resolve, reject) => {
         const data = {

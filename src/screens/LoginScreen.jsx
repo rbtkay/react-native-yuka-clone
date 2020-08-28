@@ -9,7 +9,6 @@ import {
     Form,
     Item,
     Input,
-    Label,
     H2,
 } from "native-base";
 import CustomHeader from "../components/CustomHeader";

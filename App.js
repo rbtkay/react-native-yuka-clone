@@ -11,9 +11,10 @@ import { createStackNavigator, HeaderTitle } from "@react-navigation/stack";
 import HomeScreen from "./src/screens/HomeScreen";
 import DetailScreen from "./src/screens/DetailScreen";
 import ScannerScreen from "./src/screens/ScannerScreen";
-import RegisterScreen from "./src/screens/Register";
+import RegisterScreen from "./src/screens/RegisterScreen";
 import LoginScreen from "./src/screens/LoginScreen";
-import ProfileScreen from "./src/screens/Profile";
+import ProfileScreen from "./src/screens/ProfileScreen";
+import FavoritesScreen from "./src/screens/FavoritesScreen";
 
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
@@ -128,6 +129,16 @@ export default function App() {
                                     />
                                 )}
                             </Stack.Screen>
+                            <Stack.Screen
+                                name="Favorites"
+                                options={{
+                                    headerShown: false,
+                                }}
+                            >
+                                {(props) => (
+                                    <FavoritesScreen {...props} user={user} />
+                                )}
+                            </Stack.Screen>
                         </>
                     ) : (
                         <>
@@ -153,7 +164,7 @@ export default function App() {
                         </>
                     )}
                 </Stack.Navigator>
-             </NavigationContainer>
+            </NavigationContainer>
         </Root>
     );
 }
