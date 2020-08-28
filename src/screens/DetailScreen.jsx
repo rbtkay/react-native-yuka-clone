@@ -45,8 +45,6 @@ const star_status = {
 };
 
 const DetailScreen = ({ route, user }) => {
-    console.log("route", route.params);
-
     const { product_id } = route.params;
     const { isScanner } = route.params;
     const currentStar = useRef();
