@@ -43,6 +43,7 @@ const ScannerScreen = ({ navigation, user }) => {
                                 if (isOk) {
                                     navigation.navigate("Details", {
                                         product_id: data,
+                                        isScanner: true,
                                     });
                                 } else {
                                     alert(
@@ -53,14 +54,15 @@ const ScannerScreen = ({ navigation, user }) => {
                         } else {
                             navigation.navigate("Details", {
                                 product_id: data,
+                                isScanner: true,
                             });
                         }
                     });
                 } else {
                     Toast.show({
                         text: "No products found!",
-                        buttonText: "Ok"
-                    })
+                        buttonText: "Ok",
+                    });
                 }
             })
             .catch((error) => {
@@ -89,21 +91,25 @@ const ScannerScreen = ({ navigation, user }) => {
     }
     return (
         <Container>
-            <CustomHeader screen={"Scanner"}/>
-                <Camera
-                    type={cameraType}
-                    flashMode={
-                        isFlashOn
-                            ? Camera.Constants.FlashMode.torch
-                            : Camera.Constants.FlashMode.off
-                    }
-                    onBarCodeScanned={
-                        scanned ? undefined : handleBarCodeScanned
-                    }
-                    style={styles.camera}
+            <CustomHeader screen={"Scanner"} />
+            <Camera
+                type={cameraType}
+                flashMode={
+                    isFlashOn
+                        ? Camera.Constants.FlashMode.torch
+                        : Camera.Constants.FlashMode.off
+                }
+                onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+                style={styles.camera}
+            >
+                <Button
+                    rounded
+                    style={{ alignSelf: "center" }}
+                    onPress={() => changeFlash()}
                 >
-                    <Button rounded style={{alignSelf: "center"}} onPress={() => changeFlash()}><Text>Toggle Flash</Text></Button>
-                </Camera>
+                    <Text>Toggle Flash</Text>
+                </Button>
+            </Camera>
         </Container>
     );
 };

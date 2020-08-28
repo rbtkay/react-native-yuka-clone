@@ -21,6 +21,8 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { Root } from "native-base";
 
+import Expo from "expo";
+
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -28,6 +30,7 @@ export default function App() {
 
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [fontLoading, setFontLoading] = useState(true);
 
     useEffect(() => {
         (async function () {
@@ -36,6 +39,8 @@ export default function App() {
                 Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
                 ...Ionicons.font,
             });
+
+            setFontLoading(false);
         })();
 
         const usersRef = firebase.firestore().collection("users");
@@ -73,6 +78,10 @@ export default function App() {
 
     if (loading) {
         return <View />;
+    }
+    
+    if (fontLoading) {
+        return <Expo.AppLoading />;
     }
 
     return (

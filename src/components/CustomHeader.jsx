@@ -6,10 +6,13 @@ import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import OptionsMenu from "react-native-option-menu";
 
-const CustomHeader = ({ screen, logout }) => {
+const CustomHeader = ({ screen, logout, isScanner }) => {
     const navigation = useNavigation();
 
-    const goBack = () => navigation.goBack();
+    const goBack = () => {
+        if (isScanner) navigation.navigate("Home");
+        else navigation.goBack();
+    };
 
     const getProfile = () => {
         navigation.navigate("Profile");

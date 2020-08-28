@@ -45,7 +45,10 @@ const star_status = {
 };
 
 const DetailScreen = ({ route, user }) => {
+    console.log("route", route.params);
+
     const { product_id } = route.params;
+    const { isScanner } = route.params;
     const currentStar = useRef();
 
     const [name, setName] = useState(null);
@@ -105,7 +108,7 @@ const DetailScreen = ({ route, user }) => {
 
     return (
         <Container>
-            <CustomHeader screen={"Details"} />
+            <CustomHeader screen={"Details"} isScanner={isScanner} />
             {!isLoading ? (
                 <View>
                     <Card>
