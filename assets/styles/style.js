@@ -27,13 +27,19 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        paddingTop: 25
+        paddingTop: 25,
     },
     loginBtn: {
         flex: 1,
         flexDirection: "row",
         justifyContent: "center",
         paddingTop: 50,
+    },
+    title: { textAlign: "center", paddingTop: 40, paddingBottom: 50 },
+    notFound: {
+        paddingTop: 40,
+        paddingBottom: 50,
+        textAlign: "center",
     },
 });
 

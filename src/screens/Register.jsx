@@ -4,7 +4,7 @@ import { View } from "react-native";
 import { firebase } from "../../api/firebaseConfig";
 
 import { YellowBox } from "react-native";
-import { Text, Button, Container, Form, Item, Input } from "native-base";
+import { Text, Button, Container, Form, Item, Input, H2 } from "native-base";
 
 import styles from "../../assets/styles/style";
 import CustomHeader from "../components/CustomHeader";
@@ -33,6 +33,7 @@ const RegisterScreen = ({ navigation, addUser }) => {
     return (
         <Container>
             <CustomHeader screen={"Register"} />
+            <H2 style={styles.title}>Welcome, {"\n"} Thank you for joining us!</H2>
             <Form>
                 <Item>
                     <Input
@@ -79,7 +80,7 @@ const RegisterScreen = ({ navigation, addUser }) => {
                     style={{ paddingTop: 10 }}
                     onPress={() => navigation.navigate("Login")}
                 >
-                    <Text>Already a member ?</Text>
+                    <Text> Already a member ?</Text>
                 </TouchableOpacity>
             </View>
         </Container>

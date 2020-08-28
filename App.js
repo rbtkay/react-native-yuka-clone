@@ -18,7 +18,6 @@ import LoginScreen from "./src/screens/LoginScreen";
 import ProfileScreen from "./src/screens/Profile";
 
 import { YellowBox } from "react-native";
-import CustomHeader from "./src/components/CustomHeader";
 
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";

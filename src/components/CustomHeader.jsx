@@ -12,20 +12,14 @@ import {
     Icon,
     Text,
     View,
+    H1,
 } from "native-base";
-import { Picker } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import OptionsMenu from "react-native-option-menu";
 
-import { firebase } from "../../api/firebaseConfig";
-import { auth } from "firebase";
-
-const icon = require("../../assets/icon.png");
-
 const CustomHeader = ({ screen, logout }) => {
     const navigation = useNavigation();
-    const [pickerValue, setPickerValue] = useState("key0");
 
     const goBack = () => navigation.navigate("Home");
 
@@ -41,7 +35,9 @@ const CustomHeader = ({ screen, logout }) => {
 
     return (
         <Header>
-            {screen === "Scanner" || screen === "Details" ? (
+            {screen === "Scanner" ||
+            screen === "Details" ||
+            screen === "Profile" ? (
                 <Left>
                     <TouchableOpacity onPress={() => goBack()}>
                         <Icon style={{ color: "white" }} name="arrow-back" />
@@ -51,10 +47,12 @@ const CustomHeader = ({ screen, logout }) => {
                 <Left />
             )}
             <Body>
-                <Title>{screen}</Title>
+                <Title>
+                    <H1 style={{ color: "#ffffff" }}>{screen}</H1>
+                </Title>
             </Body>
             <Right>
-                {screen === "Home" ? (
+                {screen === "History" ? (
                     <OptionsMenu
                         customButton={
                             <Icon style={{ color: "white" }} name="menu" />

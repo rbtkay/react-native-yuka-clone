@@ -2,7 +2,16 @@ import React, { useState } from "react";
 import { View } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { firebase } from "../../api/firebaseConfig";
-import { Container, Button, Text, Form, Item, Input, Label } from "native-base";
+import {
+    Container,
+    Button,
+    Text,
+    Form,
+    Item,
+    Input,
+    Label,
+    H2,
+} from "native-base";
 import CustomHeader from "../components/CustomHeader";
 
 import styles from "../../assets/styles/style";
@@ -22,6 +31,9 @@ const LoginScreen = ({ navigation, addUser }) => {
     return (
         <Container>
             <CustomHeader screen={"Login"} />
+            <H2 style={styles.title}>
+                Welcome Back!
+            </H2>
             <Form>
                 <Item>
                     <Input
@@ -51,7 +63,7 @@ const LoginScreen = ({ navigation, addUser }) => {
                     style={{ paddingTop: 10 }}
                     onPress={() => navigation.navigate("Register")}
                 >
-                    <Text>New member ?</Text>
+                    <Text> New member ?</Text>
                 </TouchableOpacity>
             </View>
         </Container>

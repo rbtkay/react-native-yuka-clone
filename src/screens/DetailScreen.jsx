@@ -15,11 +15,23 @@ import {
     Button,
     Icon,
     H3,
+    H2,
+    Badge,
 } from "native-base";
 import CustomHeader from "../components/CustomHeader";
+import { ScrollView } from "react-native-gesture-handler";
+
+const badge_colors = {
+    A: "#006600",
+    B: "#33cc33",
+    C: "#cccc00",
+    D: "#ff9900",
+    E: "#cc0000",
+};
 
 const DetailScreen = ({ route }) => {
     const { product_id } = route.params;
+    const color = "primary";
 
     const [name, setName] = useState(null);
     const [image, setImage] = useState(null);
@@ -61,9 +73,29 @@ const DetailScreen = ({ route }) => {
             <Card style={{ flex: 0 }}>
                 <CardItem>
                     <Left>
-                        <Thumbnail source={{ uri: image }} />
+                        <Image
+                            source={image ? { uri: image } : null}
+                            style={{ width: 150, height: 150 }}
+                        />
                         <Body>
-                            <Text>{name}</Text>
+                            <H2>{name}</H2>
+                            {grade ? (
+                                <View style={{ flexDirection: "row" }}>
+                                    <Badge
+                                        style={{
+                                            backgroundColor:
+                                                badge_colors[
+                                                    grade.toUpperCase()
+                                                ],
+                                        }}
+                                    >
+                                        <Text>{grade.toUpperCase()}</Text>
+                                    </Badge>
+                                    <Text> nutriscore</Text>
+                                </View>
+                            ) : (
+                                <View />
+                            )}
                         </Body>
                     </Left>
                 </CardItem>
@@ -78,20 +110,17 @@ const DetailScreen = ({ route }) => {
                             </Text>
                         )}
                         <Text>{"\n"}</Text>
-                        <H3>Nutriscore</H3>
-                        {grade ? (
-                            <Text>{grade.toUpperCase()}</Text>
-                        ) : (
-                            <Text>No nutriscore assign to this product</Text>
-                        )}
-                        <Text>{"\n"}</Text>
                         <H3>Ingredients</H3>
                         {product_ingredients &&
                         product_ingredients.length > 0 ? (
                             <>
-                                {product_ingredients.map((ing, index) => {
-                                    return <Text key={index}>{ing.text}</Text>;
-                                })}
+                                <ScrollView>
+                                    {product_ingredients.map((ing, index) => {
+                                        return (
+                                            <Text key={index}>{ing.text}</Text>
+                                        );
+                                    })}
+                                </ScrollView>
                             </>
                         ) : (
                             <Text>

@@ -1,19 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { View } from "react-native";
 import { firebase } from "../../api/firebaseConfig";
 
 import { YellowBox } from "react-native";
-import { Text, Button, Container, Form, Item, Input } from "native-base";
+import { Text, Button, Container, Form, Item, Input, H2 } from "native-base";
 
 import styles from "../../assets/styles/style";
 import CustomHeader from "../components/CustomHeader";
+import { useIsFocused } from "@react-navigation/native";
 
 const ProfileScreen = ({ navigation, user, addUser }) => {
+    YellowBox.ignoreWarnings(["Setting a timer"]);
     const [email, setEmail] = useState(null);
     const [username, setUsername] = useState(null);
 
-    YellowBox.ignoreWarnings(["Setting a timer"]);
+    const [userEmail, setUserEmail] = useState(null);
+    const [userUsername, setUserUsername] = useState(null);
+
+    const isFocused = useIsFocused();
+
+    useEffect(() => {
+        console.log(isFocused);
+        setUserEmail(user.email);
+        setUserUsername(user.username);
+    }, [isFocused]);
 
     const updateUser = () => {
         // check that at least one of the field is filled
@@ -30,7 +41,13 @@ const ProfileScreen = ({ navigation, user, addUser }) => {
                     username: updatedUsername,
                 })
                 .then(() => {
-                    console.log("User Updated");
+                    const newUser = {
+                        id: user.id,
+                        email: updatedEmail,
+                        username: updatedUsername,
+                    };
+
+                    addUser(newUser);
                 });
         }
 
@@ -40,10 +57,11 @@ const ProfileScreen = ({ navigation, user, addUser }) => {
     return (
         <Container>
             <CustomHeader screen={"Profile"} />
+            <H2 style={styles.title}>Your profile</H2>
             <Form>
                 <Item>
                     <Input
-                        placeholder={user.username}
+                        placeholder={userUsername}
                         value={username}
                         autoCapitalize="none"
                         onChangeText={(text) => setUsername(text)}
@@ -51,17 +69,18 @@ const ProfileScreen = ({ navigation, user, addUser }) => {
                 </Item>
                 <Item>
                     <Input
-                        placeholder={user.email}
+                        placeholder={userEmail}
                         value={email}
                         autoCapitalize="none"
                         onChangeText={(text) => setEmail(text)}
                     />
                 </Item>
             </Form>
-
-            <Button onPress={() => updateUser()}>
-                <Text>Update Profile</Text>
-            </Button>
+            <View style={styles.loginBtn}>
+                <Button onPress={() => updateUser()}>
+                    <Text>Update Profile</Text>
+                </Button>
+            </View>
         </Container>
     );
 };

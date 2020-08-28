@@ -17,14 +17,12 @@ import Product from "../components/Product";
 import { findProductsByUser } from "../../api/products";
 import { useIsFocused } from "@react-navigation/native";
 import CustomHeader from "../components/CustomHeader";
-import { ScrollView } from "react-native-gesture-handler";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 
 const HomeScreen = ({ navigation, user, logout }) => {
     const [products, setProducts] = useState([]);
     const [isLoading, setLoading] = useState(true);
     const user_id = user.id;
-
-    const [pickerValue, setPickerValue] = useState("key1");
 
     const isFocused = useIsFocused();
 
@@ -36,9 +34,15 @@ const HomeScreen = ({ navigation, user, logout }) => {
         });
     }, [isFocused]);
 
+    const onProductPress = (product_id) => {
+        navigation.navigate("Details", {
+            product_id,
+        });
+    };
+
     return (
         <Container>
-            <CustomHeader screen={"Home"} logout={logout} />
+            <CustomHeader screen={"History"} logout={logout} />
             <ScrollView>
                 <View style={{ flex: 3 }}>
                     {!isLoading ? (
@@ -47,17 +51,28 @@ const HomeScreen = ({ navigation, user, logout }) => {
                                 <List>
                                     {products.map((product, index) => {
                                         return (
-                                            <ListItem key={index}>
-                                                <Product
-                                                    product={product}
-                                                    navigation={navigation}
-                                                />
-                                            </ListItem>
+                                            <TouchableOpacity
+                                                key={index}
+                                                onPress={() =>
+                                                    onProductPress(product.id)
+                                                }
+                                            >
+                                                <ListItem>
+                                                    <Product
+                                                        product={product}
+                                                        navigation={navigation}
+                                                    />
+                                                </ListItem>
+                                            </TouchableOpacity>
                                         );
                                     })}
                                 </List>
                             ) : (
-                                <Text>No scanned products for now</Text>
+                                <Text
+                                    style={styles.notFound}
+                                >
+                                    No scanned products for now
+                                </Text>
                             )}
                         </View>
                     ) : (
