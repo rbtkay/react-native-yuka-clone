@@ -48,7 +48,7 @@ exports.login = (email, password) => {
                             return;
                         }
                         const user = firestoreDocument.data();
-                        resolve(user); //add user to the state of App
+                        resolve(user);
                     })
                     .catch((error) => {
                         alert(error);

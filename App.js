@@ -148,11 +148,3 @@ export default function App() {
         </NavigationContainer>
     );
 }
-// options={({ navigation }) => {
-//     return {
-//         headerTitle: () => (
-//             // <OptionMenu navigation={navigation} />
-//             <HomeHeader/>
-//         ),
-//     };
-// }}

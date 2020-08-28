@@ -21,7 +21,6 @@ const ProfileScreen = ({ navigation, user, addUser }) => {
     const isFocused = useIsFocused();
 
     useEffect(() => {
-        console.log(isFocused);
         setUserEmail(user.email);
         setUserUsername(user.username);
     }, [isFocused]);

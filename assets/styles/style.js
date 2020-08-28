@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
         paddingBottom: 50,
         textAlign: "center",
     },
+    detailContent: { paddingRight: 10, paddingLeft: 10 },
 });
 
 export default styles;

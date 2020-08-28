@@ -2,15 +2,12 @@ import React, { useState } from "react";
 // import { Header } from "react-native-elements";
 import * as Font from "expo-font";
 import {
-    Container,
     Header,
     Left,
     Body,
     Right,
     Title,
-    Button,
     Icon,
-    Text,
     View,
     H1,
 } from "native-base";
@@ -31,10 +28,8 @@ const CustomHeader = ({ screen, logout }) => {
         logout();
     };
 
-    const menuIcon = <Icon name="menu" />;
-
     return (
-        <Header>
+        <Header iosBarStyle={"dark-content"}>
             {screen === "Scanner" ||
             screen === "Details" ||
             screen === "Profile" ? (

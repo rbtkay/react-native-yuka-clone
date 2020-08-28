@@ -1,23 +1,8 @@
 import React from "react";
-import { View, TouchableOpacity, Image } from "react-native";
-import {
-    Text,
-    Icon,
-    Thumbnail,
-    Card,
-    CardItem,
-    Body,
-    ListItem,
-} from "native-base";
-import styles from "../../assets/styles/style";
+import { View } from "react-native";
+import { Text, Thumbnail } from "native-base";
 
 const Product = ({ product }) => {
-    // const onPress = (item) => {
-    //     navigation.navigate("Details", {
-    //         product_id: item.id,
-    //     });
-    // };
-
     return (
         <View style={{ flexDirection: "row" }}>
             <Thumbnail

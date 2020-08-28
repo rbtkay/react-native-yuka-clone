@@ -29,15 +29,21 @@ const badge_colors = {
     E: "#cc0000",
 };
 
+const nutrient_colors = {
+    low: "#006600",
+    moderate: "#cccc00",
+    high: "#cc0000",
+};
+
 const DetailScreen = ({ route }) => {
     const { product_id } = route.params;
-    const color = "primary";
 
     const [name, setName] = useState(null);
     const [image, setImage] = useState(null);
     const [origin, setOrigin] = useState(null);
     const [grade, setGrade] = useState("");
     const [product_ingredients, setIngredients] = useState([]);
+    const [nutrients, setNutrients] = useState([]);
 
     useEffect(() => {
         fetch(
@@ -46,14 +52,12 @@ const DetailScreen = ({ route }) => {
             .then((response) => response.json())
             .then((responseJson) => {
                 const {
-                    id,
                     origins,
-                    coutries_imported,
-                    nutriscore_data,
                     ingredients,
                     nutrition_grades,
                     image_nutrition_thumb_url,
                     product_name,
+                    nutrient_levels,
                 } = responseJson.product;
 
                 setName(product_name);
@@ -61,6 +65,7 @@ const DetailScreen = ({ route }) => {
                 setOrigin(origins);
                 setGrade(nutrition_grades);
                 setIngredients(ingredients);
+                setNutrients(nutrient_levels);
             })
             .catch((error) => {
                 console.error(error);
@@ -70,7 +75,7 @@ const DetailScreen = ({ route }) => {
     return (
         <Container>
             <CustomHeader screen={"Details"} />
-            <Card style={{ flex: 0 }}>
+            <Card>
                 <CardItem>
                     <Left>
                         <Image
@@ -99,38 +104,69 @@ const DetailScreen = ({ route }) => {
                         </Body>
                     </Left>
                 </CardItem>
-                <CardItem>
-                    <Body>
-                        <H3>Origin</H3>
-                        {origin ? (
-                            <Text>{origin}</Text>
-                        ) : (
-                            <Text>
-                                the origins of this product are not known
-                            </Text>
-                        )}
-                        <Text>{"\n"}</Text>
-                        <H3>Ingredients</H3>
-                        {product_ingredients &&
-                        product_ingredients.length > 0 ? (
-                            <>
-                                <ScrollView>
-                                    {product_ingredients.map((ing, index) => {
-                                        return (
-                                            <Text key={index}>{ing.text}</Text>
-                                        );
-                                    })}
-                                </ScrollView>
-                            </>
-                        ) : (
-                            <Text>
-                                No ingredient mentionned for this product
-                            </Text>
-                        )}
-                        <Text>{"\n"}</Text>
-                    </Body>
-                </CardItem>
             </Card>
+            <ScrollView style={styles.detailContent}>
+                <View>
+                    <H3>Origin</H3>
+                    {origin ? (
+                        <Text>{origin}</Text>
+                    ) : (
+                        <Text>the origins of this product are not known</Text>
+                    )}
+                    <Text>{"\n"}</Text>
+                </View>
+                <H3>Ingredients</H3>
+                {product_ingredients && product_ingredients.length > 0 ? (
+                    <>
+                        {product_ingredients.map((ing, index) => {
+                            return <Text key={index}>{ing.text}</Text>;
+                        })}
+                    </>
+                ) : (
+                    <Text>No ingredient mentionned for this product</Text>
+                )}
+                <Text>{"\n"}</Text>
+                <H3>Nutrient Level</H3>
+                <View>
+                    {nutrients ? (
+                        <>
+                            {Object.entries(nutrients).map(
+                                (nutrient, index) => {
+                                    return (
+                                        <View
+                                            key={index}
+                                            style={{ flexDirection: "row" }}
+                                        >
+                                            <Text key={index}>
+                                                {nutrient[0]}:{" "}
+                                            </Text>
+                                            <Text
+                                                style={{
+                                                    backgroundColor:
+                                                        nutrient_colors[
+                                                            nutrient[1]
+                                                        ],
+                                                    paddingLeft: 2,
+                                                    paddingRight: 2,
+                                                    paddingBottom: 2,
+                                                    paddingTop: 2,
+                                                    color: "#ffffff",
+                                                }}
+                                            >
+                                                {nutrient[1]}
+                                            </Text>
+                                        </View>
+                                    );
+                                }
+                            )}
+                        </>
+                    ) : (
+                        <Text>
+                            Nutrient level are not specified for this product
+                        </Text>
+                    )}
+                </View>
+            </ScrollView>
         </Container>
     );
 };
